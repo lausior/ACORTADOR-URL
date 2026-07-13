@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<main>
+    <h1>Crear Shortlink</h1>
+    <form method="POST" action="">
+        <label for="url">URL:</label><br>
+        <input type="url" id="url" name="url" required>
+        <br>
+        <button type="submit">Crear</button>
+    </form>
+</main>
+{% endblock %}
