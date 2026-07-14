@@ -5,6 +5,7 @@ from flask import request # Sirve para acceder a los datos que envía un formula
 from flask import abort
 from flask import redirect
 from models import Redirecciones # Importa la clase Redireccion, definida en models.py
+from models import Perfiles
 import secrets # Es una librería de Python que genera cadenas aleatorias y seguras
 from config import APP_BASE_URL
 
@@ -36,9 +37,29 @@ def create_shortlink():
     return render_template('crear_shortlink.html', direccion_url=direccion_url, app_base_url=APP_BASE_URL) #devuelve la plantilla
 
 
-# 3. COGEMOS EL CÓDIGO DE LA URL A TRAVÉS DEL MÉTODO GET
+# # 3. COGEMOS EL CÓDIGO DE LA URL A TRAVÉS DEL MÉTODO GET
+# @app.get('/bifrost/<codigo>')
+# def redirect_to_url(codigo):
+#     url_corta = f"bifrost/{codigo}"
+    
+#     redir = Redirecciones.get(url_corta)
+#     if redir is None:
+#         abort(404)
+#     else:
+#         return redirect(redir)
+
+
+# # 3. COGEMOS EL CÓDIGO DE LA URL A TRAVÉS DEL MÉTODO GET
 @app.get('/bifrost/<codigo>')
 def redirect_to_url(codigo):
+    id_perfil = request.cookies.get("id_perfil")
+    perfil = Perfiles.get(id_perfil)
+    
+    if not perfil:
+        id_perfil = random.randint(1_000_000_000, 9_999_999_999)
+        nuevo_perfil = Perfiles
+    
+    
     url_corta = f"bifrost/{codigo}"
     
     redir = Redirecciones.get(url_corta)
